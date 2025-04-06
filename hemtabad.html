@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Management System</title>
+  <style>
+  <body>
+  
+  <nav> {
+      background-color: #2c3e50;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropbtn {
+      background-color: #2c3e50;
+      color: white;
+      padding: 14px 18px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      transition: background 0.3s;
+    }
+
+    .dropbtn:hover {
+      background-color: #1abc9c;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #ecf0f1;
+      min-width: 220px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      border-radius: 4px;
+    }
+
+    .dropdown-content a {
+      color: #2c3e50;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #1abc9c;
+      color: white;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
+
+      .dropbtn {
+        width: 100%;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <img src="images/left-logo.jpg" alt="Left Logo" class="logo left-logo">
+    
+    <div class="header-text">
+      <h1>HEMTABAD ADARSAH VIDYALAYA (H.S)</h1>
+      <p class="address">
+        Address: Vill+P.O+P.S: Hemtabad, Dist.:- Uttar Dinajpur, 733130<br>
+        Contact: 9999999999 | Email: bjkkadasdgkj@gmail.com
+      </p>
+    </div>
+    
+    <img src="images/right-logo.jpg" alt="Right Logo" class="logo right-logo">
+  </div>
+</header>
+
+<nav class="admission-nav">
+  <a href="online-admission.html" class="blink-btn">Online Admission</a>
+</nav>
+
+<nav>
+  <div class="dropdown">
+    <button class="dropbtn">Home </button>
+    </div>
+    
+ <div class="dropdown">
+      <button class="dropbtn">Gallery</button>
+        </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">Student Fees</button>
+          </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">Results</button>
+       </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">Notifications</button>
+          </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">School Management</button>
+      <div class="dropdown-content">
+        <a href="#">School Details</a>
+        <a href="#">Gallery</a>
+        <a href="#">Photo Gallery</a>
+        <a href="#">Mid Day Meal</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">Login Management</button>
+      <div class="dropdown-content">
+        <a href="#">Admin Login</a>
+         <a href="#">HOI Login</a>
+         <a href="#">Teacher Login</a>
+         <a href="#">DEO Login</a>
+      </div>
+    </div>
+ 
+ <div class="dropdown">
+      <button class="dropbtn">Student Login</button>
+     </div>
+</nav>
+</body>
+</html>
