@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Attendance Excel</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import * as XLSX from "https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mjs";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFTcg9E5Tg9B5jL4TBtSLgWgNaksqKxhk",
+      authDomain: "qr-attendance-system-ffc5d.firebaseapp.com",
+      projectId: "qr-attendance-system-ffc5d",
+      storageBucket: "qr-attendance-system-ffc5d.appspot.com",
+      messagingSenderId: "1057055433514",
+      appId: "1:1057055433514:web:405cc10beef67ab016b453",
+      measurementId: "G-MRGB1555BJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function exportToExcel() {
+      const snapshot = await getDocs(collection(db, "attendance"));
+      const data = [];
+
+      snapshot.forEach((doc) => {
+        data.push(doc.data());
+      });
+
+      if (data.length === 0) {
+        alert("No attendance data found!");
+        return;
+      }
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Attendance");
+
+      XLSX.writeFile(workbook, "Attendance_Report.xlsx");
+    }
+
+    window.exportToExcel = exportToExcel;
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      font-size: 18px;
+      padding: 12px 30px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h2>Download Attendance from Firebase as Excel</h2>
+  <button onclick="exportToExcel()">Download Attendance Excel</button>
+</body>
+</html>
