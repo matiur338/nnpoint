@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - School Management</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          background: #f4f4f4;
+          padding-bottom: 40px;
+        }
+        header {
+          background-color: #007bff;
+          color: white;
+          padding: 20px 15px;
+          text-align: center;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0 0 5px 0; font-size: 2.2em; font-weight: bold; }
+        header h2 { margin: 0; font-size: 1.1em; font-weight: normal; opacity: 0.9; }
+
+        .container {
+          /* Increased max-width to accommodate more inline fields */
+          max-width: 850px;
+          margin: 20px auto;
+          background: white;
+          padding: 30px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+        }
+        h1.form-title {
+          text-align: center;
+          color: #333;
+          margin-top: 0;
+          margin-bottom: 30px; /* Increased bottom margin */
+          font-size: 1.8em;
+        }
+        /* Removed margin-bottom from .form-group as gap handles spacing in inline contexts */
+        /* .form-group { margin-bottom: 15px; } */
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+          color: #555;
+          font-size: 0.9em; /* Slightly smaller labels */
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="password"],
+        textarea, /* Keep textarea style if used elsewhere */
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            font-size: 1em; /* Ensure consistent font size */
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 25px; /* Increased top margin */
+            width: 100%;
+        }
+        button[type="submit"]:hover { background-color: #218838; }
+        .back-link { display: block; text-align: center; margin-top: 20px; font-size: 0.9em; }
+        .back-link a { color: #007bff; text-decoration: none; }
+        .back-link a:hover { text-decoration: underline; }
+        input:invalid, select:invalid, textarea:invalid { border-color: red; }
+
+        /* --- Styles for Inline Field Containers --- */
+        .inline-fields-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Space between the inline fields */
+            margin-bottom: 15px; /* Space below each line/row of fields */
+            align-items: flex-end; /* Vertically align items at the bottom */
+        }
+        /* Individual form group within the inline container */
+        .inline-fields-container .form-group {
+            flex: 1; /* Allow fields to grow and share space */
+            /* Adjust min-width based on number of items per line */
+            /* e.g., for 2 items: min-width: calc(50% - 8px); approx */
+            /* Using flex: 1 is usually sufficient */
+            min-width: 120px; /* Minimum width before wrapping */
+            margin-bottom: 0; /* Remove bottom margin as container handles it */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) { /* Adjusted breakpoint */
+             .inline-fields-container {
+                flex-direction: column; /* Stack vertically */
+                gap: 0; /* Remove gap when vertical */
+                align-items: stretch; /* Stretch items */
+                margin-bottom: 0; /* Remove bottom margin for container */
+             }
+             .inline-fields-container .form-group {
+                 margin-bottom: 15px; /* Add back margin for individual items */
+                 min-width: unset; /* Reset min-width */
+             }
+             /* Ensure last item in vertical stack also has margin */
+             .inline-fields-container .form-group:last-child {
+                  margin-bottom: 15px;
+             }
+        }
+        /* --- End of Styles for Inline Fields --- */
+
+    </style>
+</head>
+<body>
+
+    <header>
+      <h1>HEMTABAD ADARSHA VIDYALAYA (H.S)</h1>
+      <h2>School Management System</h2>
+    </header>
+
+    <div class="container">
+        <h1 class="form-title">Student Registration Form</h1>
+
+        <form action="#" method="post">
+
+            <!-- Line 1: BSP ID, Admission Class -->
+            <div class="inline-fields-container">
+                <div class="form-group">
+                    <label for="student_bsp">Student's Banglarsikha Id. No.:</label>
+                    <input type="text" id="student_bsp" name="student_bsp" required maxlength="14" pattern="[0-9]{14}" title="Please enter exactly 14 digits." inputmode="numeric">
+                </div>
+                <div class="form-group">
+                    <label for="admission_class">Admission Class:</label>
+                    <select id="admission_class" name="admission_class" required>
+                        <option value="">Select...</option>
+                        <option value="V">Class-V</option>
+                        <option value="VI">Class-VI</option>
+                        <option value="VII">Class-VII</option>
+                        <option value="VIII">Class-VIII</option>
+                        <option value="IX">Class-IX</option>
+                        <option value="X">Class-X</option>
+                        <option value="XI">Class-XI</option>
+                        <option value="XII">Class-XII</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Line 2: Student Name, Father Name -->
+            <div class="inline-fields-container">
+                <div class="form-group">
+                    <label for="student_name">Student's Full Name:</label>
+                    <input type="text" id="student_name" name="student_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="father_name">Father's Name:</label>
+                    <input type="text" id="father_name" name="father_name" required>
+                </div>
+            </div>
+
+            <!-- Line 3: Mother Name, Guardian Name -->
+            <div class="inline-fields-container">
+                <div class="form-group">
+                    <label for="mother_name">Mother's Name:</label>
+                    <input type="text" id="mother_name" name="mother_name" required>
+                </div>
+                 <div class="form-group">
+                    <label for="guardian_name">Guardian's Name:</label>
+                    <input type="text" id="guardian_name" name="guardian_name" required>
+                </div>
+            </div>
+
+            <!-- Line 4: Date of Birth, Mobile No -->
+            <div class="inline-fields-container">
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                 <div class="form-group">
+                    <label for="guardian_contact">Guardian's Mobile Number:</label>
+                    <input type="tel" id="guardian_contact" name="guardian_contact" required pattern="[0-9]{10,15}" title="Please enter a valid mobile number">
+                </div>
+            </div>
+
+            <!-- Line 5: Gender, Religion, Caste, Sub Caste -->
+            <div class="inline-fields-container">
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required> <option value="">Select...</option> <option value="male">Male</option> <option value="female">Female</option> <option value="other">Other</option> </select>
+                </div>
+                <div class="form-group">
+                    <label for="religion">Religion:</label>
+                    <select id="religion" name="religion" required> <option value="">Select...</option> <option value="Islam">Islam</option> <option value="Hinduism">Hinduism</option> <option value="Christianity">Christianity</option> <option value="Buddhism">Buddhism</option> <option value="Sikhism">Sikhism</option> <option value="Jainism">Jainism</option> <option value="Other">Other</option> </select>
+                </div>
+                <div class="form-group">
+                    <label for="caste">Caste:</label>
+                     <select id="caste" name="caste" required> <option value="">Select...</option> <option value="General">General</option> <option value="SC">SC</option> <option value="ST">ST</option> <option value="OBC-A">OBC-A</option> <option value="OBC-B">OBC-B</option> <option value="N/A">Not Applicable</option> </select>
+                </div>
+                <div class="form-group">
+                    <label for="sub_caste">Sub Caste:</label>
+                    <input type="text" id="sub_caste" name="sub_caste" placeholder="(If applicable)">
+                </div>
+            </div>
+
+            <!-- Line 6: Address Fields (Village, PO, PS, Dist, Pin) -->
+            <div class="inline-fields-container">
+                 <div class="form-group">
+                    <label for="village">Village:</label>
+                    <input type="text" id="village" name="village" required>
+                </div>
+                 <div class="form-group">
+                    <label for="post_office">Post Office:</label>
+                    <input type="text" id="post_office" name="post_office" required>
+                </div>
+                 <div class="form-group">
+                    <label for="police_station">Police Station:</label>
+                    <input type="text" id="police_station" name="police_station" required>
+                </div>
+                 <div class="form-group">
+                    <label for="district">District:</label>
+                    <input type="text" id="district" name="district" required>
+                </div>
+                 <div class="form-group">
+                    <label for="pin_code">Pin Code:</label>
+                    <input type="text" id="pin_code" name="pin_code" required pattern="[0-9]{6}" title="Enter 6 digit Pin Code" inputmode="numeric" maxlength="6">
+                </div>
+            </div>
+
+            <!-- Line 7: User ID, Password -->
+            <div class="inline-fields-container">
+                <div class="form-group">
+                    <label for="username">User ID / Username:</label>
+                    <input type="text" id="username" name="username" required placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a password">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+             <div class="form-group"> <!-- Keep button in its own group for full width -->
+                <button type="submit">Register Student</button>
+            </div>
+        </form>
+
+         <div class="back-link">
+            <a href="login.html">Back to Login Page</a>
+         </div>
+    </div> <!-- Closing container div -->
+
+</body>
+</html>
