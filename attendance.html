@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Attendance System</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    #reader {
+      width: 300px;
+      margin: auto;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>QR Attendance System</h2>
+  <div id="reader"></div>
+  <div id="status">Waiting for QR Code scan...</div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFTcg9E5Tg9B5jL4TBtSLgWgNaksqKxhk",
+      authDomain: "qr-attendance-system-ffc5d.firebaseapp.com",
+      projectId: "qr-attendance-system-ffc5d",
+      storageBucket: "qr-attendance-system-ffc5d.appspot.com",
+      messagingSenderId: "1057055433514",
+      appId: "1:1057055433514:web:405cc10beef67ab016b453",
+      measurementId: "G-MRGB1555BJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function onScanSuccess(decodedText) {
+      document.getElementById('status').innerText = "Scanned: " + decodedText;
+
+      const [nnpId, name, roll, cls] = decodedText.split('|');
+      const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+      const timeNow = new Date().toLocaleTimeString();
+
+      const docRef = doc(db, "attendance", `${nnpId}_${today}`);
+
+      getDoc(docRef).then((docSnap) => {
+        if (!docSnap.exists()) {
+          setDoc(docRef, {
+            nnpId,
+            name,
+            roll,
+            class: cls,
+            date: today,
+            inTime: timeNow,
+            outTime: ""
+          });
+          document.getElementById('status').innerText = "? IN Time has been recorded!";
+        } else if (docSnap.data().outTime === "") {
+          updateDoc(docRef, { outTime: timeNow });
+          document.getElementById('status').innerText = "? OUT Time has been recorded!";
+        } else {
+          document.getElementById('status').innerText = "Attendance has already been marked for today";
+        }
+      }).catch((error) => {
+        console.error("Error accessing Firestore:", error);
+        document.getElementById('status').innerText = "? Failed to access Firestore!";
+      });
+    }
+
+    new Html5Qrcode("reader").start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
+      onScanSuccess
+    );
+  </script>
+</body>
+</html>
