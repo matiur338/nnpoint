@@ -9,29 +9,55 @@
       font-family: Arial, sans-serif;
       padding: 20px;
       text-align: center;
+      background-color: #f4f4f4;
     }
+    h2 { color: #333; }
+    p { color: #555; margin: 5px 0; }
     #reader {
       width: 300px;
-      margin: auto;
+      max-width: 90%;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     #status {
       margin-top: 20px;
       font-size: 18px;
-      color: green;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      min-height: 40px; /* Added min-height to reduce layout shift */
+      display: flex; /* Center text vertically */
+      align-items: center;
+      justify-content: center;
     }
+    /* Status message styling */
+    .status-success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; }
+    .status-warning { color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; }
+    .status-info { color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; }
+    .status-error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
+    .status-wait { color: #383d41; background-color: #e2e3e5; border: 1px solid #d6d8db; }
   </style>
 </head>
 <body>
   <h2>QR Attendance System</h2>
+  <!-- Instruction for arrival -->
+  <p>Please scan the QR code once upon arrival at school to record your IN time.</p>
+  <!-- Instruction for departure -->
+  <p>Please scan the QR code again when leaving school (after at least 30 minutes) to record your OUT time.</p>
+
   <div id="reader"></div>
-  <div id="status">Waiting for QR Code scan...</div>
+  <div id="status" class="status-wait">Waiting for QR Code scan...</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
+    // WARNING: Avoid putting API keys directly in client-side code in production.
     const firebaseConfig = {
-      apiKey: "AIzaSyAFTcg9E5Tg9B5jL4TBtSLgWgNaksqKxhk",
+      apiKey: "YOUR_API_KEY", // <<<--- IMPORTANT: Replace with your actual API key
       authDomain: "qr-attendance-system-ffc5d.firebaseapp.com",
       projectId: "qr-attendance-system-ffc5d",
       storageBucket: "qr-attendance-system-ffc5d.appspot.com",
@@ -42,45 +68,150 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const statusDiv = document.getElementById('status');
+    let isProcessing = false; // Flag to prevent processing multiple scans at once
 
-    function onScanSuccess(decodedText) {
-      document.getElementById('status').innerText = "Scanned: " + decodedText;
-
-      const [nnpId, name, roll, cls] = decodedText.split('|');
-      const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-      const timeNow = new Date().toLocaleTimeString();
-
-      const docRef = doc(db, "attendance", `${nnpId}_${today}`);
-
-      getDoc(docRef).then((docSnap) => {
-        if (!docSnap.exists()) {
-          setDoc(docRef, {
-            nnpId,
-            name,
-            roll,
-            class: cls,
-            date: today,
-            inTime: timeNow,
-            outTime: ""
-          });
-          document.getElementById('status').innerText = "? IN Time has been recorded!";
-        } else if (docSnap.data().outTime === "") {
-          updateDoc(docRef, { outTime: timeNow });
-          document.getElementById('status').innerText = "? OUT Time has been recorded!";
-        } else {
-          document.getElementById('status').innerText = "Attendance has already been marked for today";
-        }
-      }).catch((error) => {
-        console.error("Error accessing Firestore:", error);
-        document.getElementById('status').innerText = "? Failed to access Firestore!";
-      });
+    // Function to update status message and style
+    function updateStatus(message, type = 'info') {
+        statusDiv.innerText = message;
+        statusDiv.className = 'status'; // Reset classes first
+        statusDiv.classList.add(`status-${type}`);
     }
 
-    new Html5Qrcode("reader").start(
-      { facingMode: "environment" },
-      { fps: 10, qrbox: 250 },
-      onScanSuccess
-    );
+    // Function called on successful QR scan
+    function onScanSuccess(decodedText) {
+      // --- If already processing a scan, ignore the new one ---
+      if (isProcessing) {
+        // console.log("Already processing a scan, ignoring.");
+        return;
+      }
+      isProcessing = true; // --- Set flag: processing has started ---
+      updateStatus("Processing scan...", 'wait');
+
+      try {
+        const [nnpId, name, roll, cls] = decodedText.split('|');
+
+        // Basic validation of scanned data
+        if (!nnpId || !name || !roll || !cls) {
+            updateStatus("Error: Invalid QR code data format.", 'error');
+            console.error("Invalid QR data:", decodedText);
+            isProcessing = false; // --- Reset flag on error ---
+            return;
+        }
+
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }); // Use AM/PM format
+        const timestampNow = Date.now(); // Milliseconds since epoch
+        const thirtyMinutesInMs = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+        const docRef = doc(db, "attendance", `${nnpId}_${today}`);
+
+        // Get the document for today for this user
+        getDoc(docRef).then((docSnap) => {
+          if (!docSnap.exists()) {
+            // --- Record IN Time (No record exists for today) ---
+            setDoc(docRef, {
+              nnpId,
+              name,
+              roll,
+              class: cls, // Field name 'class' is acceptable in Firestore
+              date: today,
+              inTime: timeNow,
+              inTimestamp: timestampNow, // Store the IN timestamp
+              outTime: "",
+              outTimestamp: null // Initialize outTimestamp
+            }).then(() => {
+                updateStatus(`✅ Success: ${name} (Roll: ${roll}) IN Time recorded!`, 'success');
+            }).catch(err => {
+                console.error("Error setting document:", err);
+                updateStatus("❌ Error saving IN time to database!", 'error');
+            }).finally(() => {
+                 // --- Ensure flag is reset after setDoc attempt (success or fail) ---
+                 // Add a small delay before allowing the next scan to prevent immediate re-scan issues
+                 setTimeout(() => { isProcessing = false; }, 1500);
+            });
+
+          } else {
+            // --- Record already exists for today ---
+            const data = docSnap.data();
+
+            if (data.outTime === "") {
+              // --- Try to Record OUT Time (IN time exists, OUT time is empty) ---
+
+              // Safety check: Ensure inTimestamp exists
+              if (!data.inTimestamp) {
+                  console.error("Missing inTimestamp for record:", docRef.id);
+                  updateStatus("❌ Error: Cannot calculate time difference. Missing IN timestamp.", 'error');
+                  isProcessing = false; // --- Reset flag ---
+                  return;
+              }
+
+              const timeDifference = timestampNow - data.inTimestamp;
+
+              if (timeDifference < thirtyMinutesInMs) {
+                // --- OUT Scan attempted too early ---
+                const minutesWaited = Math.floor(timeDifference / (60 * 1000));
+                const minutesRemaining = 30 - minutesWaited;
+                updateStatus(`⏳ ${name}, you already checked IN. Please wait ${minutesRemaining} more minute(s) to check OUT.`, 'warning');
+                 // --- Use setTimeout to reset the flag after showing the warning, allowing user time to read ---
+                 setTimeout(() => { isProcessing = false; }, 2000); // Slightly longer delay for warnings
+
+              } else {
+                // --- Record OUT Time (Sufficient time has passed) ---
+                updateDoc(docRef, {
+                    outTime: timeNow,
+                    outTimestamp: timestampNow // Store the OUT timestamp
+                }).then(() => {
+                    updateStatus(`✅ Success: ${name} (Roll: ${roll}) OUT Time recorded!`, 'success');
+                }).catch(err => {
+                    console.error("Error updating document:", err);
+                    updateStatus("❌ Error saving OUT time to database!", 'error');
+                }).finally(() => {
+                    // --- Ensure flag is reset after updateDoc attempt (success or fail) ---
+                    setTimeout(() => { isProcessing = false; }, 1500); // Add delay
+                });
+              }
+            } else {
+              // --- Both IN and OUT already recorded for today ---
+              updateStatus(`ℹ️ ${name} (Roll: ${roll}) has already completed attendance for today. (IN: ${data.inTime}, OUT: ${data.outTime})`, 'info');
+              // --- Use setTimeout to reset the flag after showing the info message ---
+              setTimeout(() => { isProcessing = false; }, 2000); // Slightly longer delay for info message
+            }
+          }
+        }).catch((error) => {
+          console.error("Error accessing Firestore:", error);
+          updateStatus("❌ Failed to access Firestore! Check connection or permissions.", 'error');
+          isProcessing = false; // --- Reset flag on Firestore access error ---
+        });
+
+      } catch (e) {
+          console.error("Error parsing QR code or processing:", e);
+          updateStatus("Error: Could not process QR code. Scan again.", 'error');
+          isProcessing = false; // --- Reset flag on parsing error ---
+      }
+    }
+
+    // --- Initialize QR Scanner ---
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrConfig = { fps: 10, qrbox: { width: 250, height: 250 } }; // Define QR box size
+
+    // Start scanning using the back camera ('environment')
+    html5QrCode.start(
+        { facingMode: "environment" },
+        qrConfig,
+        onScanSuccess, // Callback for successful scans
+        (errorMessage) => {
+          // Optional callback for scan errors (e.g., QR not found)
+          // console.warn(`QR Scan Error: ${errorMessage}`);
+        })
+    .catch((err) => {
+      // Error during scanner initialization
+      console.error("Failed to start QR scanner:", err);
+      updateStatus("❌ Error initializing QR Scanner!", 'error');
+      // Although unlikely, reset flag if scanner fails to start
+      isProcessing = false;
+    });
+
   </script>
 </body>
 </html>
