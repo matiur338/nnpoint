@@ -1,0 +1,139 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+.header {
+  background-color: #0A8754;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header img {
+  height: 80px;
+  width: auto;
+  border-radius: 8px;
+}
+
+.title {
+  flex: 1 1 300px;
+  margin: 10px;
+  text-align: center;
+}
+
+nav {
+  background-color: #08764c;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.menu {
+  position: relative;
+  margin: 0 15px;
+}
+
+.menu > a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.menu > a:hover {
+  background-color: #0a9d66;
+  border-radius: 6px;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  min-width: 200px;
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+.menu:hover .dropdown {
+  display: block;
+}
+
+.dropdown a {
+  color: #08764c;
+  padding: 10px 20px;
+  display: block;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.dropdown a:hover {
+  background-color: #e5f9f0;
+}
+
+.has-submenu {
+  position: relative;
+}
+
+.has-submenu .sub-dropdown {
+  display: none;
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: #fefefe;
+  border-top: 1px solid #ccc;
+  margin-left: 10px;
+  padding: 10px 0;
+}
+
+.has-submenu:hover .sub-dropdown {
+  display: block;
+}
+
+.has-submenu {
+  position: relative;
+}
+
+.sub-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  min-width: 220px;
+  z-index: 999;
+}
+
+.has-submenu:hover .sub-dropdown {
+  display: block;
+}
+
+footer {
+  background-color: #08764c;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  margin-top: 30px;
+}
