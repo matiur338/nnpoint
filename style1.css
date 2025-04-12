@@ -1,139 +1,224 @@
-/* Reset */
+/* === style1.css === */
+
+/* Basic Reset - Removes default browser margins/paddings */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
 
 body {
-  font-family: sans-serif;
-  background: #f5f7fa;
-  color: #333;
+    font-family: Arial, sans-serif; /* Standard sans-serif font */
+    line-height: 1.6; /* Spacing between lines of text */
+    /* Apply background image */
+    background-image: url('images/04.jpg'); /* Relative path to the body background image */
+    background-size: cover; /* Scale the image to cover the entire background */
+    background-position: center center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from tiling */
+    background-attachment: fixed; /* Keep the background image fixed during scroll */
+    color: #333; /* Default text color */
 }
 
-.header {
-  background-color: #0A8754;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+/* Header Styling */
+.header-banner {
+    /* Header background image */
+    background-image: url('images/03.jpg'); /* Relative path to the header background image */
+    background-size: cover;
+    background-position: center;
+    padding: 60px 0; /* Padding top/bottom */
+    /* Semi-transparent black overlay for text readability */
+    background-color: rgba(0, 0, 0, 0.55);
+    color: white; /* Text color within the header */
+    border-bottom: 20px solid #2D7B9B; /* Thick colored border at the bottom */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow below the header */
 }
 
-.header img {
-  height: 80px;
-  width: auto;
-  border-radius: 8px;
+/* Container for header elements (logos, title) */
+.header-content {
+    max-width: 95%; /* Maximum width of the header content (adjusted from 60%) */
+    margin: 0 auto; /* Center the content horizontally (adjusted margin) */
+    display: flex; /* Enable flexbox layout */
+    justify-content: space-between; /* Space out items: logo-left, title, logo-right */
+    align-items: center; /* Vertically align items in the middle */
+    padding: 0 10px; /* Side padding (adjusted padding) */
 }
 
-.title {
-  flex: 1 1 300px;
-  margin: 10px;
-  text-align: center;
+/* Styling for logo images */
+.logo img {
+    max-height: 100px; /* Maximum height for logos (adjusted from 150px) */
+    width: auto; /* Maintain aspect ratio */
+    border-radius: 100px; /* Slightly rounded corners (adjusted from 100px) */
+    display: block; /* Avoid extra space below image */
 }
 
-nav {
-  background-color: #08764c;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 10px 0;
+/* Styling for the title section in the header */
+.title-section {
+    text-align: center; /* Center the text */
+    flex-grow: 1; /* Allow this section to take up available space */
+    padding: 0 20px; /* Padding left/right */
 }
 
-.menu {
-  position: relative;
-  margin: 0 15px;
+.title-section h1 {
+    font-size: 2.2em; /* Size of the main title */
+    margin-bottom: 4px; /* Space below the title */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Text shadow for readability */
 }
 
-.menu > a {
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  display: inline-block;
-  font-weight: bold;
-  transition: 0.3s;
+.title-section p {
+    font-size: 1.05em; /* Size of the subtitle */
+    font-style: italic; /* Italicize the subtitle */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Text shadow */
 }
 
-.menu > a:hover {
-  background-color: #0a9d66;
-  border-radius: 6px;
+/* Wrapper for Sidebar and Main Content Area */
+.content-wrapper {
+    display: flex; /* Arrange sidebar and main content side-by-side */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    max-width: 95%; /* Max width matching header content */
+    margin: 25px auto; /* Top/bottom margin, centered horizontally */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Content area shadow */
+    border-radius: 8px; /* Rounded corners for the wrapper */
+    overflow: hidden; /* Prevent content from spilling out */
+    min-height: calc(100vh - 150px); /* Example: Set minimum height relative to viewport height minus header/footer */
 }
 
-.dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  min-width: 200px;
-  z-index: 1000;
-  padding: 10px 0;
+/* Sidebar Navigation Styling */
+.sidebar {
+    width: 280px; /* Fixed width for the sidebar */
+    background-color: #2c3e50; /* Dark blue background */
+    color: #ecf0f1; /* Light text color */
+    padding: 20px 0; /* Padding top/bottom */
+    flex-shrink: 0; /* Prevent sidebar from shrinking when space is limited */
+    border-right: 1px solid #34495e; /* Border separating sidebar from main content */
+    /* Add scroll if sidebar content is too long */
+    /* overflow-y: auto; */
 }
 
-.menu:hover .dropdown {
-  display: block;
+/* Sidebar Title Styling */
+.sidebar h3 {
+    text-align: center;
+    padding: 12px 15px;
+    margin: -20px 0 15px 0; /* Adjust margin to align with top */
+    background-color: #0734DE; /* Different background color for title */
+    font-size: 1.2em;
+    letter-spacing: 1px; /* Space between letters */
+    color: #ffffff; /* White text color */
 }
 
-.dropdown a {
-  color: #08764c;
-  padding: 10px 20px;
-  display: block;
-  text-decoration: none;
-  font-weight: 500;
+/* Sidebar Unordered List (Menu container) */
+.sidebar ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
 }
 
-.dropdown a:hover {
-  background-color: #e5f9f0;
+/* Sidebar List Items */
+.sidebar ul li {
+    display: block; /* Stack items vertically */
+    position: relative; /* Required for absolute positioning of pseudo-elements if needed */
 }
 
-.has-submenu {
-  position: relative;
+/* Sidebar Anchor Links (Menu items) */
+.sidebar ul li a {
+    display: block; /* Make the entire area clickable */
+    padding: 13px 25px; /* Padding around text */
+    color: #07e320; /* Link text color (Green) */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease, padding-left 0.3s ease; /* Smooth transitions on hover */
+    border-bottom: 1px solid #463ee6; /* Separator line between items (Blue) */
+    font-size: 0.98em; /* Font size for menu items */
 }
 
-.has-submenu .sub-dropdown {
-  display: none;
-  position: relative;
-  top: 0;
-  left: 0;
-  background-color: #fefefe;
-  border-top: 1px solid #ccc;
-  margin-left: 10px;
-  padding: 10px 0;
+/* Hover and Active State for Sidebar Links */
+.sidebar ul li a:hover,
+.sidebar ul li a.active { /* Style for hovered or active menu item */
+    background-color: #5bf0e8; /* Background color on hover (Cyan) */
+    color: #1138b8; /* Text color on hover (Blue) */
+    padding-left: 30px; /* Indent text slightly on hover */
 }
 
-.has-submenu:hover .sub-dropdown {
-  display: block;
+/* Dropdown Menu Styling (Submenu) */
+.sidebar .dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #34495e; /* Background for submenu */
+    overflow: hidden; /* Required for max-height transition */
+    max-height: 0; /* Initially hidden */
+    transition: max-height 0.4s ease-out; /* Smooth animation for opening/closing */
 }
 
-.has-submenu {
-  position: relative;
+/* Show submenu when parent LI has 'open' class (added by JS) */
+.sidebar li.dropdown.open > .dropdown-menu {
+    max-height: 1000px; /* Set a large enough height to reveal content */
 }
 
-.sub-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  min-width: 220px;
-  z-index: 999;
+/* Styling for links within the dropdown submenu */
+.sidebar .dropdown-menu li a {
+    padding: 11px 25px 11px 40px; /* Indent submenu items further */
+    font-size: 0.92em; /* Slightly smaller font size */
+    color: #bdc3c7; /* Text color for submenu items (Light gray) */
+    border-bottom: 1px solid #d60645; /* Separator line color (Pink/Red) */
+    /* Inherit transitions or define new ones if needed */
 }
 
-.has-submenu:hover .sub-dropdown {
-  display: block;
+/* Hover state for submenu links */
+.sidebar .dropdown-menu li a:hover {
+    background-color: #f5e49a; /* Background on hover (Light Yellow) */
+    color: #04118a; /* Text color on hover (Dark Blue) */
+    padding-left: 45px; /* Indent further on hover */
 }
 
+/* Dropdown Arrow Indicator (using CSS pseudo-element) */
+.sidebar li.dropdown > a::after {
+    content: '\25BC'; /* Unicode down arrow character */
+    font-size: 0.8em; /* Size of the arrow */
+    float: right; /* Position arrow to the right */
+    margin-left: 8px; /* Space between text and arrow */
+    line-height: inherit; /* Align arrow vertically with text */
+    transition: transform 0.3s ease-out; /* Smooth rotation animation */
+}
+
+/* Rotate arrow when dropdown is open */
+.sidebar li.dropdown.open > a::after {
+    transform: rotate(-180deg); /* Rotate arrow upwards */
+}
+
+/* Main Content Area Styling */
+.main-content {
+    flex-grow: 1; /* Allow main content to take remaining width */
+    padding: 30px 40px; /* Padding inside the main content area */
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds height */
+}
+
+/* Main Content Heading (H2) */
+.main-content h2 {
+    color: #2c3e50; /* Heading color matching sidebar */
+    margin-bottom: 25px; /* Space below heading */
+    border-bottom: 2px solid #eaeaea; /* Light gray bottom border */
+    padding-bottom: 12px; /* Space between text and border */
+    font-size: 1.8em; /* Size of the heading */
+}
+
+/* Paragraphs within Main Content */
+.main-content p {
+    margin-bottom: 15px; /* Space below paragraphs */
+    color: #555; /* Standard dark gray text color */
+}
+
+/* Footer Styling */
 footer {
-  background-color: #08764c;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-  margin-top: 30px;
+    background-color: #2c3e50; /* Background matching sidebar */
+    color: #ecf0f1; /* Light text color */
+    text-align: center; /* Center footer text */
+    padding: 15px 0; /* Padding top/bottom */
+    margin-top: 0; /* Remove top margin if needed */
+    font-size: 0.9em; /* Slightly smaller font size */
+    width: 100%; /* Ensure footer spans full width */
+    border-top: 3px solid #004466; /* Top border matching header bottom border style */
+}
+
+/* Paragraphs within Footer */
+footer p {
+    margin: 5px 0; /* Small margin between footer lines */
 }
