@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Admission Form - HAVHS</title>
+    <link rel="stylesheet" href="admissionformstyle.css">
+</head>
+<body>
+
+    <header>
+      <h1>HEMTABAD ADARSHA VIDYALAYA (H.S)</h1>
+      <h3>School Management System</h3>
+    </header>
+
+    <div class="container">
+        <h1 class="form-title">Student Admission Form</h1>
+
+        <div id="error-message" style="display: none;"></div> <!-- Error message container -->
+
+        <form id="admission-form" enctype="multipart/form-data">
+
+            <div class="form-columns-container">
+                <!-- Left Column -->
+                <div class="form-column left-column">
+                    <h3 class="column-title">Student Basic & Address Details</h3>
+                    <!-- Basic Details -->
+                    <div class="form-group"> <label for="student_name">Student's Full Name:</label> <input type="text" id="student_name" name="student_name" required placeholder="Enter full name"> </div>
+                    <div class="form-group"> <label for="father_name">Father's Name:</label> <input type="text" id="father_name" name="father_name" required placeholder="Enter father's name"> </div>
+                    <div class="form-group"> <label for="mother_name">Mother's Name:</label> <input type="text" id="mother_name" name="mother_name" required placeholder="Enter mother's name"> </div>
+                    <div class="form-group"> <label for="guardian_name">Guardian's Name:</label> <input type="text" id="guardian_name" name="guardian_name" required placeholder="Enter guardian's name"> </div>
+                    <div class="inline-fields-container">
+                        <div class="form-group"> <label for="dob">Date of Birth:</label> <input type="date" id="dob" name="dob" required> </div>
+                        <div class="form-group"> <label for="aadhaar_number">Aadhaar Number:</label> <input type="text" id="aadhaar_number" name="aadhaar_number" pattern="[0-9]{12}" maxlength="12" title="Enter 12 digit Aadhaar Number" inputmode="numeric" placeholder="12 digit Aadhaar" required> </div>
+                    </div>
+                     <div class="inline-fields-container">
+                         <div class="form-group"> <label for="guardian_contact">Mobile Number:</label> <input type="tel" id="guardian_contact" name="guardian_contact" required pattern="[6-9][0-9]{9}" title="Valid 10-digit mobile" inputmode="numeric" placeholder="10 digit mobile no." maxlength="10"> </div>
+                        <div class="form-group"> <label for="whatsapp_number">WhatsApp Number:</label> <input type="tel" id="whatsapp_number" name="whatsapp_number" pattern="[6-9][0-9]{9}" title="Valid 10-digit WhatsApp number" inputmode="numeric" placeholder="10 digit WhatsApp (Optional)" maxlength="10"> </div>
+                    </div>
+                    <div class="inline-fields-container">
+                        <div class="form-group"> <label for="gender">Gender:</label> <select id="gender" name="gender" required> <option value="" disabled selected>Select...</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option> </select> </div>
+                        <div class="form-group"> <label for="religion">Religion:</label> <select id="religion" name="religion" required> <option value="" disabled selected>Select...</option><option value="Islam">Islam</option><option value="Hinduism">Hinduism</option><option value="Christianity">Christianity</option><option value="Buddhism">Buddhism</option><option value="Sikhism">Sikhism</option><option value="Jainism">Jainism</option><option value="Other">Other</option> </select> </div>
+					</div>
+                    <div class="inline-fields-container">
+                        <div class="form-group"> <label for="caste">Caste:</label> <select id="caste" name="caste" required> <option value="" disabled selected>Select...</option><option value="General">General</option><option value="SC">SC</option><option value="ST">ST</option><option value="OBC-A">OBC-A</option><option value="OBC-B">OBC-B</option><option value="N/A">Not Applicable</option> </select> </div>
+                        <div class="form-group"> <label for="sub_caste">Sub Caste <small id="sub_caste_label_note">(If applicable)</small>:</label> <input type="text" id="sub_caste" name="sub_caste" placeholder="Enter sub caste"> </div>
+                    </div>
+                    <div class="inline-fields-container">
+                        <div class="form-group"> <label for="guardian_occupation">Guardian Occupation:</label> <input type="text" id="guardian_occupation" name="guardian_occupation" required placeholder="Enter Guardian Occupation"> </div>
+                        <div class="form-group"> <label for="annual_family_income">Annual Family Income:</label> <input type="text" id="annual_family_income" name="annual_family_income" required placeholder="Enter Annual Family Income" inputmode="numeric"> </div>
+                    </div>
+                    <!-- Address Details -->
+                    <div id="address-details-section">
+                          <h4 class="column-title" style="font-size: 1.1em; margin-bottom: 15px; margin-top: 25px;">Student Address Details</h4>
+                          <div class="inline-fields-container"> <div class="form-group"> <label for="village">Village:</label> <input type="text" id="village" name="village" required placeholder="Village name"> </div> <div class="form-group"> <label for="post_office">Post Office:</label> <input type="text" id="post_office" name="post_office" required placeholder="Post office"> </div> </div>
+                          <div class="inline-fields-container"> <div class="form-group"> <label for="police_station">Police Station:</label> <input type="text" id="police_station" name="police_station" required placeholder="Police station"> </div> <div class="form-group"> <label for="district">District:</label> <input type="text" id="district" name="district" required placeholder="District name"> </div> </div>
+                          <div class="inline-fields-container"> <div class="form-group"> <label for="pin_code">Pin Code:</label> <input type="text" id="pin_code" name="pin_code" required pattern="[0-9]{6}" title="6 digit PIN" inputmode="numeric" maxlength="6" placeholder="6 digit PIN"> </div> <div class="form-group"> <label for="state">State:</label> <input type="text" id="state" name="state" required placeholder="State name" value="West Bengal"> </div> </div>
+                    </div>
+
+                    <!-- Login Credentials (Enabled for Testing - REMOVE or SECURE for production) -->
+                    <div id="user-credentials-section" style="border: 1px dashed red; padding: 10px; margin-top: 20px;">
+                          <h4 class="column-title" style="font-size: 1.1em; margin-bottom: 15px; margin-top: 0; color: red;">Login Credentials (Testing Only - Insecure!)</h4>
+                           <div class="inline-fields-container">
+                               <div class="form-group"> <label for="username">User ID / Username:</label> <input type="text" id="username" name="username" placeholder="Choose username"> </div> <!-- Removed required for testing -->
+                               <div class="form-group"> <label for="password">Password:</label> <input type="password" id="password" name="password" placeholder="Create password"> </div> <!-- Removed required for testing -->
+                          </div>
+                          <small style="color: red; display: block; text-align: center;">Warning: Saving plain passwords is not secure. Remove this section for production.</small>
+                    </div>
+
+                </div> <!-- End Left Column -->
+
+                <!-- Right Column -->
+                <div class="form-column right-column">
+                    <!-- Top Row: Academic Info + Photo -->
+                    <div class="top-academic-photo-row">
+                        <div class="academic-fields-group">
+                             <div class="form-group"> <label for="student_bsp">Student BSP ID:</label> <input type="text" id="student_bsp" name="student_bsp" required maxlength="14" pattern="[0-9]{14}" title="14 digits" inputmode="numeric" placeholder="14 digit ID"> </div>
+                             <div class="form-group"> <label for="admission_class">Admission Class:</label> <select id="admission_class" name="admission_class" required> <option value="" disabled selected>Select...</option> <option value="V">V</option><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option><option value="IX">IX</option><option value="X">X</option><option value="XI">XI</option><option value="XII">XII</option> </select> </div>
+                             <div class="form-group"> <label for="previous_school_name">Previous School Name:</label> <input type="text" id="previous_school_name" name="previous_school_name" placeholder="Prev school (if applicable)"> </div>
+                        </div>
+                        <div class="photo-area-group">
+                             <div id="photo-upload-preview-area"> <label class="photo-label">Student's Photo:</label> <img id="photo-preview" src="#" alt="Photo Preview"> <input type="file" id="student_photo" name="student_photo" class="file-input-button-style" accept="image/png, image/jpeg, image/jpg" required> <small style="font-size: 0.8em; color: #777; display:block; margin-top: 5px;">(Required, Max 5MB)</small> </div>
+                        </div>
+                    </div>
+                    <!-- Previous Marks Section (Conditional) -->
+                     <div id="previous-marks-section" style="display: none; margin-top: 20px; margin-bottom: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
+                         <h4 class="column-title" style="font-size: 1.1em; margin-bottom: 15px; margin-top: 0;">Previous Academic Marks Details (Class X / Equivalent)</h4>
+                         <div class="inline-fields-container"> <div class="form-group"> <label for="prev_board_name">Board Name:</label> <input type="text" id="prev_board_name" name="prev_board_name" placeholder="e.g., WBBSE"> </div> <div class="form-group"> <label for="prev_passing_year">Passing Year:</label> <input type="number" id="prev_passing_year" name="prev_passing_year" min="1980" max="2099" placeholder="YYYY" inputmode="numeric"> </div> </div>
+                         <div class="inline-fields-container"> <div class="form-group"> <label for="prev_marks_bengali">Bengali:</label> <input type="number" id="prev_marks_bengali" name="prev_marks_bengali" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> <div class="form-group"> <label for="prev_marks_english">English:</label> <input type="number" id="prev_marks_english" name="prev_marks_english" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> </div>
+                         <div class="inline-fields-container"> <div class="form-group"> <label for="prev_marks_mathematics">Mathematics:</label> <input type="number" id="prev_marks_mathematics" name="prev_marks_mathematics" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> <div class="form-group"> <label for="prev_marks_physical_science">Physical Sc.:</label> <input type="number" id="prev_marks_physical_science" name="prev_marks_physical_science" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> </div>
+                         <div class="inline-fields-container"> <div class="form-group"> <label for="prev_marks_life_science">Life Sc.:</label> <input type="number" id="prev_marks_life_science" name="prev_marks_life_science" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> <div class="form-group"> <label for="prev_marks_history">History:</label> <input type="number" id="prev_marks_history" name="prev_marks_history" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> </div>
+                         <div class="inline-fields-container"> <div class="form-group"> <label for="prev_marks_geography">Geography:</label> <input type="number" id="prev_marks_geography" name="prev_marks_geography" min="0" max="100" placeholder="Marks" inputmode="numeric"> </div> <div class="form-group"> <label for="prev_marks_optional">Optional Sub:</label> <input type="number" id="prev_marks_optional" name="prev_marks_optional" min="0" max="100" placeholder="Marks (If any)" inputmode="numeric"> </div> </div>
+                     </div>
+                    <!-- Current Admission Academic Details (Conditional) -->
+                    <h3 class="column-title">Student Academic Details (Current Admission)</h3>
+                    <div class="form-group" id="stream-group" style="display: none;"> <label for="stream">Select Stream (For Class XI/XII):</label> <select id="stream" name="stream"> <option value="" disabled selected>Select...</option> <option value="Arts">Arts</option> <option value="Science">Science</option> </select> </div>
+                    <div id="subject-selection-area" style="display: none;">
+                        <div class="inline-fields-container"> <div class="form-group"> <label for="compulsory_subject_1">Compulsory-I:</label> <input type="text" id="compulsory_subject_1" name="compulsory_subject_1" value="Bengali" readonly required style="background-color: #eee; cursor: default;"> </div> <div class="form-group"> <label for="compulsory_subject_2">Compulsory-II:</label> <input type="text" id="compulsory_subject_2" name="compulsory_subject_2" value="English" readonly required style="background-color: #eee; cursor: default;"> </div> </div>
+                        <div class="inline-fields-container"> <div class="form-group"> <label for="elective_subject_1">Elective-I:</label> <select id="elective_subject_1" name="elective_subject_1" required> <option value="" disabled selected>Select...</option> </select> </div> <div class="form-group"> <label for="elective_subject_2">Elective-II:</label> <select id="elective_subject_2" name="elective_subject_2" required> <option value="" disabled selected>Select...</option> </select> </div> </div>
+                        <div class="inline-fields-container"> <div class="form-group"> <label for="elective_subject_3">Elective-III:</label> <select id="elective_subject_3" name="elective_subject_3" required> <option value="" disabled selected>Select...</option> </select> </div> <div class="form-group"> <label for="optional_subject">Optional:</label> <select id="optional_subject" name="optional_subject"> <option value="" disabled selected>Select Optional...</option> <!-- JS will add 'None' --> </select> </div> </div>
+                    </div>
+                    <!-- Bank Details -->
+                     <div id="bank-details-section">
+                          <h4 class="column-title" style="font-size: 1.1em; margin-bottom: 15px; margin-top: 25px;">Bank Account Details <small>(Optional)</small></h4>
+                          <div class="form-group"> <label for="bank_account_holder_name">Account Holder Name:</label> <input type="text" id="bank_account_holder_name" name="bank_account_holder_name" placeholder="Name as per bank record"> </div>
+                          <div class="inline-fields-container"> <div class="form-group"> <label for="bank_account_number">Account Number:</label> <input type="text" id="bank_account_number" name="bank_account_number" placeholder="Enter account number" inputmode="numeric"> </div> <div class="form-group"> <label for="bank_ifsc_code">IFSC Code:</label> <input type="text" id="bank_ifsc_code" name="bank_ifsc_code" placeholder="Enter IFSC code" style="text-transform:uppercase" maxlength="11"> </div> </div>
+                          <div class="form-group"> <label for="bank_name">Bank Name:</label> <input type="text" id="bank_name" name="bank_name" placeholder="Enter bank name"> </div>
+                      </div>
+                </div> <!-- End Right Column -->
+            </div>
+
+            <!-- Hidden fields for photo data ONLY -->
+            <input type="hidden" id="photo_base64" name="photo_base64">
+            <input type="hidden" id="photo_filename" name="photo_filename">
+            <input type="hidden" id="photo_mimetype" name="photo_mimetype">
+
+            <!-- Initial Submit Button -->
+            <div class="form-group submit-group">
+                <button type="submit" id="submit-button">Submit Application</button>
+            </div>
+        </form>
+
+        <!-- Preview Section Container -->
+        <div id="preview-section" style="display: none;">
+            <div id="preview-content" style="margin-bottom: 20px;"></div>
+            <div id="declaration-preview" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-size: 0.9em; line-height: 1.4;">
+                <input type="checkbox" id="declaration-check-preview" style="vertical-align: middle; margin-right: 5px; width: auto; height: auto;">
+                <label for="declaration-check-preview" style="display: inline; font-weight: normal;">I hereby declare that all the information/data provided by me in this application form is true and original...</label>
+            </div>
+            <div id="preview-buttons" style="text-align: center;">
+                 <button type="button" id="final-submit-button" disabled>Confirm & Final Submit</button>
+                 <button type="button" id="edit-button">Edit Application</button>
+            </div>
+            <div id="loading-indicator" style="display: none; text-align: center; margin-top: 15px; font-style: italic;">Submitting, please wait...</div>
+        </div>
+
+        <!-- Post Submit Success Area -->
+        <div id="post-submit-area" style="display: none;">
+            <div id="form-number-display-area">
+                <h3>Application Submitted Successfully!</h3>
+                <p>Please note your Application No. below for future reference.</p>
+                <p>Application No.: <strong id="generated-form-number">---</strong></p>
+            </div>
+            <div id="payment-section">
+                <p>Application No.: <strong id="action-form-number-ref">---</strong></p>
+                <a href="#" id="payment-button" target="_blank" class="action-button" style="display: none; background-color: #007bff;">Make Payment</a>
+                <a href="#" id="download-button" target="_blank" class="action-button" style="display: none; background-color: #17a2b8;">Download Receipt (PDF)</a>
+                <a href="#" id="print-button" target="_blank" class="action-button" style="display: none; background-color: #6c757d;">Print Receipt</a>
+            </div>
+        </div>
+
+        <!-- Back to Login Link -->
+        <div class="back-link" id="back-login-link" style="display: block; margin-top: 30px;">
+            <a href="#">Already Registered? Back to Login Page</a>
+        </div>
+    </div> <!-- End .container -->
+
+    <script src="admissionformjs.js"></script>
+
+</body>
+</html>
