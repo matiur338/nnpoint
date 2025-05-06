@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Initial core elements check passed.");
 
     // --- Subject Lists ---
-    const artsSubjects = ["Computer Science", "Economics", "Geography", "History", "Philosophy", "Political Science", "Sanskrit"];
+    const artsSubjects = ["Computer Application", "Economics", "Geography", "History", "Philosophy", "Political Science", "Sanskrit"];
     const scienceSubjects = ["Mathematics", "Physics", "Chemistry", "Biology"];
 
     // --- Helper: Sanitize Data for Display ---
